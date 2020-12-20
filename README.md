@@ -2,6 +2,9 @@
 Terraform の練習
 
 ## 試す
+[Provider: GitHub - Terraform by HashiCorp](https://www.terraform.io/docs/providers/github/index.html)
+
+略したら `GITHUB_TOKEN` 環境変数見てくれるとのことなので、これ使う.
 
 ### 1 new
 

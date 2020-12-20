@@ -8,8 +8,8 @@ resource "github_repository" "test-from-terraform" {
 
   visibility = "public"
 
-  has_wiki     = true
-  has_issues   = true
-  has_projects = true
+  has_wiki     = false
+  has_issues   = false
+  has_projects = false
 }
 
