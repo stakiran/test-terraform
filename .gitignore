@@ -7,3 +7,4 @@
 # - 実運用では VCS ではなく S3 に置いたりするらしい
 #   [Terraformを割と安全に使う方法 · tehepero note(・ω<) 2.0](https://blog.stormcat.io/post/entry/2015/06/01/210500/)
 *.tfstate
+*.tfstate.backup

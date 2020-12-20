@@ -4,9 +4,8 @@ provider "github" {
 
 resource "github_repository" "test-from-terraform" {
   name        = "test-from-terraform"
-  description = "Terraform からつくってみたものです"
+  description = "Terraform からつくってみたものです(ここを書き換えて再apply)"
 
-  // private = false
   visibility = "public"
 
   has_wiki     = true
