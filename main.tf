@@ -4,22 +4,27 @@ provider "github" {
 
 resource "github_repository" "repo" {
   name        = "test-from-terraform"
-  description = "Terraform からつくってみたものです(ここを書き換えて再apply)"
+  description = "Terraform からつくってみたものです"
+  visibility  = "public"
+  auto_init   = true
+}
 
-  visibility = "public"
-
-  has_wiki     = false
-  has_issues   = false
-  has_projects = false
+resource "github_branch_default" "repo" {
+  repository = github_repository.repo.name
+  branch     = "master"
 }
 
 output "reponame" {
   value = github_repository.repo.name
 }
 
+output "branch" {
+  value = github_branch_default.repo
+}
+
 resource "github_repository_file" "readme" {
   repository = github_repository.repo.name
-  branch     = "main"
+  branch     = github_branch_default.repo.branch
   file       = "README.md"
   content    = "# これは Terraform から作成したものです"
 }

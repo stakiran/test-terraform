@@ -57,3 +57,24 @@ Error: Branch main not found in repository or repository is not readable
     - `repository = "test-from-terraform"` でも動かん
     - `repository = github_repository.repo.name` にしてるけど動かん
 - branch は main でも master でもダメ
+- github token の scope？
+    - でも repo だよなぁ
+    - delete repo は別にあったので追加したけど
+
+https://github.com/terraform-providers/terraform-provider-github/blob/4c7264800e7d56e6faae976b44e63b37051082dc/github/resource_github_repository_file.go#L319
+
+- `checkRepositoryBranchExists` func
+- いやデフォは main ブランチですよねぇ？
+
+auto_init true で初期化しないとダメ……ってことはないよなぁ
+
+[Cannot set the default branch on a new repository · Issue #146 · terraform-providers/terraform-provider-github](https://github.com/terraform-providers/terraform-provider-github/issues/146)
+
+- なんか API の仕様でブランチは master 使い給え、言うてますけど
+- default_branch 使ったらリソースの方使え warning → 公式ドキュメントないですけど → ソース見る
+    - [terraform-provider-github/resource_github_branch_default.go at master · terraform-providers/terraform-provider-github](https://github.com/terraform-providers/terraform-provider-github/blob/master/github/resource_github_branch_default.go)
+
+> Error: PATCH https://api.github.com/repos/stakiran/test-from-terraform: 422 Validation Failed [{Resource:Repository Field:default_branch Code:invalid Message:Cannot update default branch for an empty repository. Please init the repository and push first.}]
+
+どういうこと？ push first ってあるけど、file 追加しようとすると branch not found が出て、上記 issue によると main じゃなく master を使うべきで……堂々巡りなんだが :confused:
+
