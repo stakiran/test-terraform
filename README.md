@@ -40,4 +40,20 @@ github_repository.test-from-terraform: Refreshing state... [id=test-from-terrafo
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 ```
 
-### 2 
+### 2 create file
+
+```
+github_repository_file.readme: Creating...
+
+Error: Branch main not found in repository or repository is not readable
+
+  on main.tf line 16, in resource "github_repository_file" "readme":
+  16: resource "github_repository_file" "readme" {
+```
+
+先に進めん。何がおかしい？
+
+- https://github.com/yuya-takeyama/terraform-multiple-providers-practice/blob/4315305f051aee0f04f7d6c4166085aa9b077f6b/main.tf
+    - `repository = "test-from-terraform"` でも動かん
+    - `repository = github_repository.repo.name` にしてるけど動かん
+- branch は main でも master でもダメ
