@@ -78,3 +78,40 @@ auto_init true で初期化しないとダメ……ってことはないよな�
 
 どういうこと？ push first ってあるけど、file 追加しようとすると branch not found が出て、上記 issue によると main じゃなく master を使うべきで……堂々巡りなんだが :confused:
 
+default branch 問題じゃないっぽい。じゃあなんだろう。
+
+GitHub のソース漁ってる [Search · resource "github_repository_file"](https://github.com/search?q=resource+%22github_repository_file%22&type=code) けど、やっぱりこれで通らないのおかしいって。なぜだ。
+
+token しか考えられん。でもないけどなー、repo create みたいな scope。repo ちゃうん？
+
+debug log 有効にしてみた
+
+```
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe: X-Oauth-Scopes: delete_repo, repo, write:discussion ★これで足りてる？
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe: X-Ratelimit-Limit: 5000
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe: X-Ratelimit-Remaining: 4997 ★このへんは問題ないよな
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe: X-Ratelimit-Reset: 1608554791
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe: X-Ratelimit-Used: 3
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe: X-Xss-Protection: 1; mode=block
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe:
+2020-12-21T20:46:37.108+0900 [DEBUG] plugin.terraform.exe: 6e
+2020-12-21T20:46:37.109+0900 [DEBUG] plugin.terraform.exe: {
+2020-12-21T20:46:37.109+0900 [DEBUG] plugin.terraform.exe:  "message": "Branch not found", ★なんでや……
+2020-12-21T20:46:37.109+0900 [DEBUG] plugin.terraform.exe:  "documentation_url": "https://docs.github.com/rest/reference/repos#get-a-branch"
+2020-12-21T20:46:37.109+0900 [DEBUG] plugin.terraform.exe: }
+2020-12-21T20:46:37.109+0900 [DEBUG] plugin.terraform.exe: 0
+2020-12-21T20:46:37.109+0900 [DEBUG] plugin.terraform.exe:
+2020-12-21T20:46:37.109+0900 [DEBUG] plugin.terraform.exe:
+```
+
+わからん。
+
+いったん destroy して、auto_init してみるか……
+
+> Error: [ERROR] Refusing to overwrite existing file. Configure `overwrite_on_create` to `true` to override.
+
+cong!
+
+- auto_init しないとブランチさえ空ってことかー……
+- 一度つくった repo は、いったん destroy しないと auto_init は通らん
+    - AWS CFn でいう UserData みたいなもの
