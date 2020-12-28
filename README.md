@@ -2,6 +2,14 @@
 Terraform の練習
 
 ## tf 言語を試したい場合はどうすればいい？
+結論
+
+- null_resource 使う＆ `-target` オプションで絞れる
+- 実験用ワークスペースを別途つくった方がいい
+    - state には null_resource やら output やらも入っちゃうんで
+
+===
+
 - windows 版の terraform console は使いづらい
 - xxx.tf 書いて、リソースつくらずに挙動だけ調べたい
 
@@ -47,6 +55,16 @@ state はこうなってる
       ]
     }
 ```
+
+……が、state 変わるのがアレなんで、たぶん「勉強用 tf プロジェクト」を別につくって、そっちで null_resource だけつくって遊んだ方が良い。
+
+あと private って何？
+
+- [terraform - What is the meaning of `private` attribute in `tfstate` (for a DynamoDB instance)? - Server Fault](https://serverfault.com/questions/981661/what-is-the-meaning-of-private-attribute-in-tfstate-for-a-dynamodb-instance)
+- `bnVsbA==` を base64 decode すると "null"
+- >"private" in this context means "for use by the provider only", not "secret"
+    - このプロバイダーが使う用ってことか
+    - 機密データ入ってるとかじゃなくて
 
 ## 試す
 [Provider: GitHub - Terraform by HashiCorp](https://www.terraform.io/docs/providers/github/index.html)
