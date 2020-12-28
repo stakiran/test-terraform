@@ -5,6 +5,19 @@ Terraform の練習
 - windows 版の terraform console は使いづらい
 - xxx.tf 書いて、リソースつくらずに挙動だけ調べたい
 
+tf output で、**applyされた** output variable の一覧を表示できる。
+
+ってことは「試したい tf ファイルだけ apply させ」なきゃダメか。できる？
+
+- [Terraform: apply only one tf file - DevOps Stack Exchange](https://devops.stackexchange.com/questions/4292/terraform-apply-only-one-tf-file)
+- `terraform apply -target=★ここにリソース名を指定する`
+    - `tf state list` で既存リソースを一覧表示できる
+
+ダミーのリソースとか可能？ null resource 的な？
+
+- [null_resources | Resources | hashicorp/null | Terraform Registry](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource)
+
+
 ## 試す
 [Provider: GitHub - Terraform by HashiCorp](https://www.terraform.io/docs/providers/github/index.html)
 
