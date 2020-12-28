@@ -1,6 +1,10 @@
 # test-terraform
 Terraform の練習
 
+## tf 言語を試したい場合はどうすればいい？
+- windows 版の terraform console は使いづらい
+- xxx.tf 書いて、リソースつくらずに挙動だけ調べたい
+
 ## 試す
 [Provider: GitHub - Terraform by HashiCorp](https://www.terraform.io/docs/providers/github/index.html)
 
