@@ -17,6 +17,36 @@ tf output で、**applyされた** output variable の一覧を表示できる�
 
 - [null_resources | Resources | hashicorp/null | Terraform Registry](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource)
 
+```terminal
+$ (lang.tf で null_resource 定義して)
+
+$ tf init
+(null_resource プラグインをインストール)
+
+$ $ tf apply -target=null_resource.study
+```
+
+state はこうなってる
+
+```tfstate
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "study",
+      "provider": "provider[\"registry.terraform.io/hashicorp/null\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "5502336813118220905",
+            "triggers": null
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+```
 
 ## 試す
 [Provider: GitHub - Terraform by HashiCorp](https://www.terraform.io/docs/providers/github/index.html)
