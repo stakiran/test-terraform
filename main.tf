@@ -2,12 +2,12 @@ provider "null" {
 
 }
 
-resource "null_resource" "apple" {
-  triggers = {
-    jpname = "りんご"
-    color  = "red"
-    price  = 300
-  }
+module "apple" {
+  source = "./modules/fruit"
+
+  jpname = "りんご"
+  color  = "red"
+  price  = 300
 }
 
 module "lemon" {
@@ -19,5 +19,5 @@ module "lemon" {
 }
 
 output "var1" {
-  value = null_resource.apple.triggers.color
+  value = module.apple.null_resource.fruit.jpname
 }

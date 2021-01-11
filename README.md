@@ -4,6 +4,42 @@ Terraform の練習
 - null_resource で tf language 練習中
 
 ## q: jpname, color, price を持つテンプレートをつくって apple, lemon, melon をつくる
+まとめ
+
+- module を新しく定義する度に tf init が必要
+- module xxx 内でリソースをつくる場合の resource name
+    - :x: input var から与えてもらう
+    - :o: 適当に固定する
+    - 識別子は呼び出し元の `module "ここ" {……}` で判断される
+
+以下は resource name は fruit で固定している、かわりに module.xxx の部分で区別できてる
+
+```terminal
+$ tf show
+# module.apple.null_resource.fruit:
+resource "null_resource" "fruit" {
+    id       = "4806688549126870450"
+    triggers = {
+        "color"  = "red"
+        "jpname" = "りんご"
+        "price"  = "300"
+    }
+}
+
+
+# module.lemon.null_resource.fruit:
+resource "null_resource" "fruit" {
+    id       = "673598002620859379"
+    triggers = {
+        "color"  = "yellow"
+        "jpname" = "レモン"
+        "price"  = "95"
+    }
+}
+```
+
+===
+
 `newFruit('レモン', '黄色', 90)` こういう感じでつくれると思ってるんだけど。
 
 - https://www.terraform.io/docs/configuration/functions/templatefile.html
@@ -57,6 +93,16 @@ resource "null_resource" "fruit" {
     }
 }
 ```
+
+```
+output "var1" {
+  value = module.apple.null_resource.fruit.jpname
+}
+```
+
+↑ なんでダメ？
+
+
 
 ## null_resource でデータを持つリソース的なもの
 
