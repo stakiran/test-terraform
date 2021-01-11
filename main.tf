@@ -19,5 +19,5 @@ module "lemon" {
 }
 
 output "var1" {
-  value = module.apple.null_resource.fruit.jpname
+  value = module.apple.fruit.jpname
 }

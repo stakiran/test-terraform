@@ -17,3 +17,8 @@ resource "null_resource" "fruit" {
     price  = var.price
   }
 }
+
+output "fruit" {
+  // triggers が邪魔なので隠蔽して返す
+  value = null_resource.fruit.triggers
+}

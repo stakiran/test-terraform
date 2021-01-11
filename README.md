@@ -6,11 +6,14 @@ Terraform の練習
 ## q: jpname, color, price を持つテンプレートをつくって apple, lemon, melon をつくる
 まとめ
 
+- module 使う
 - module を新しく定義する度に tf init が必要
 - module xxx 内でリソースをつくる場合の resource name
     - :x: input var から与えてもらう
     - :o: 適当に固定する
     - 識別子は呼び出し元の `module "ここ" {……}` で判断される
+- 呼び出し元からデータにアクセスしたい場合, module 側で output しておくこと
+    - js でいう export
 
 以下は resource name は fruit で固定している、かわりに module.xxx の部分で区別できてる
 
@@ -100,9 +103,18 @@ output "var1" {
 }
 ```
 
-↑ なんでダメ？
+↑ ~~なんでダメ？~~ output で返しなさい.
 
+できた
 
+```
+$ tf output
+var1 = "りんご"
+
+$ tf state list
+module.apple.null_resource.fruit
+module.lemon.null_resource.fruit
+```
 
 ## null_resource でデータを持つリソース的なもの
 
