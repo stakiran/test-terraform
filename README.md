@@ -3,6 +3,8 @@ Terraform の練習
 
 - null_resource で tf language 練習中
 
+## q: jpname, color, price を持つテンプレートをつくって apple, lemon, melon をつくる
+
 ## null_resource でデータを持つリソース的なもの
 
 ```tf
