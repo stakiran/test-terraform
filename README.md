@@ -4,6 +4,59 @@ Terraform の練習
 - null_resource で tf language 練習中
 
 ## q: jpname, color, price を持つテンプレートをつくって apple, lemon, melon をつくる
+`newFruit('レモン', '黄色', 90)` こういう感じでつくれると思ってるんだけど。
+
+- https://www.terraform.io/docs/configuration/functions/templatefile.html
+
+たぶんこれだが書き方全くピンと来ない。
+
+モジュールか？
+
+```tf
+resource "null_resource" "${var.resource_name}" { // ここで変数使うのどうやるん？
+  triggers = {
+    jpname = var.jpname
+    color  = var.color
+    price  = var.price
+  }
+}
+```
+
+[Can't use programmatic resource names · Issue #571 · hashicorp/terraform](https://github.com/hashicorp/terraform/issues/571)
+
+そもそも resource name に変数名与えるのが間違いっぽい？なんで？それじゃ resourcetype.name1 と resourcetype.name2 をプログラマブルにつくるとかできなくない？
+
+> The names in Terraform are just logical for the purposes of referring to them. You want to parameterize the values inside the resource, and not the name itself, so this is by design. Multiple environments are supported by using different variable and state files.
+
+何言ってるかまだわからん。
+
+```
+$ tf state list
+null_resource.apple
+module.lemon.null_resource.fruit
+
+$ tf show
+# null_resource.apple:
+resource "null_resource" "apple" {
+    id       = "5200011022573936439"
+    triggers = {
+        "color"  = "red"
+        "jpname" = "りんご"
+        "price"  = "300"
+    }
+}
+
+
+# module.lemon.null_resource.fruit:
+resource "null_resource" "fruit" {
+    id       = "673598002620859379"
+    triggers = {
+        "color"  = "yellow"
+        "jpname" = "レモン"
+        "price"  = "95"
+    }
+}
+```
 
 ## null_resource でデータを持つリソース的なもの
 

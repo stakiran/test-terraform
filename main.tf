@@ -10,6 +10,14 @@ resource "null_resource" "apple" {
   }
 }
 
+module "lemon" {
+  source = "./modules/fruit"
+
+  jpname = "レモン"
+  color  = "yellow"
+  price  = 95
+}
+
 output "var1" {
   value = null_resource.apple.triggers.color
 }
