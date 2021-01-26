@@ -3,13 +3,6 @@ Terraform の練習
 
 - null_resource で tf language 練習中
 
-## block どこまでネストできるか
-特に三重以上もできるか試したい。
-
-
-
-## ===
-
 ## q: jpname, color, price を持つテンプレートをつくって apple, lemon, melon をつくる
 まとめ
 
