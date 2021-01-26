@@ -3,10 +3,28 @@ Terraform の練習
 
 - null_resource で tf language 練習中
 
-## block どこまでネストできるか
+## locals で block どこまでネストできるか
 特に三重以上もできるか試したい。
 
+できます。
 
+```tf
+locals {
+  personal = {
+    preferences = {
+      name = "Apple"
+    }
+  }
+}
+
+resource "null_resource" "fruit" {
+  triggers = {
+    name  = local.personal.preferences.name
+    color = "Red"
+    price = 150
+  }
+}
+```
 
 ## ===
 
