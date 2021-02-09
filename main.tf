@@ -17,8 +17,13 @@ resource "null_resource" "person" {
   }
 }
 
+locals {
+  isOzisan = var.age >= 35 ? 1 : 0
+  isNotOzisanYet = var.age <= 30 ? 1 : 0
+}
+
 resource "null_resource" "おじさんですね" {
-  count = var.age >= 35 ? 1 : 0
+  count = local.isOzisan
   triggers = {
     name  = var.name
     age = var.age
@@ -26,7 +31,7 @@ resource "null_resource" "おじさんですね" {
 }
 
 resource "null_resource" "まだおじさんではない" {
-  count = var.age <= 30 ? 1 : 0
+  count = local.isNotOzisanYet
   triggers = {
     name  = var.name
     age = var.age
