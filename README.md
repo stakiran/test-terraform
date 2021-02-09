@@ -18,7 +18,9 @@ tfvars:
 $ tf plan -var-file=asan.tfvars
 ```
 
+count は見にくいので、locals でリーダブルにすると良い？（好みわかれそうだけど。。。
 
+## ===
 
 ## locals で block どこまでネストできるか
 特に三重以上もできるか試したい。
@@ -42,8 +44,6 @@ resource "null_resource" "fruit" {
   }
 }
 ```
-
-## ===
 
 ## q: jpname, color, price を持つテンプレートをつくって apple, lemon, melon をつくる
 まとめ
