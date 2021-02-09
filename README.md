@@ -3,7 +3,22 @@ Terraform の練習
 
 - null_resource で tf language 練習中
 
-## count meta-argument による ifdef 練習
+## count meta-argument による ifdef 練習したり、tfvars 使ってみたり
+tfvars:
+
+- tfvars ファイル
+    - varname = value 形式で書く
+- 参照
+    - var.xxxx
+- ただし `variable VARNAME{...}` で宣言が必要
+
+実行
+
+```
+$ tf plan -var-file=asan.tfvars
+```
+
+
 
 ## locals で block どこまでネストできるか
 特に三重以上もできるか試したい。

@@ -2,9 +2,17 @@ provider "null" {
 
 }
 
-resource "null_resource" "a-san" {
+variable name {
+  type        = string
+}
+
+variable age {
+  type        = number
+}
+
+resource "null_resource" "person" {
   triggers = {
-    name  = "A taroh"
-    weight = 75
+    name  = var.name
+    age = var.age
   }
 }
