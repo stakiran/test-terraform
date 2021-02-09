@@ -3,8 +3,6 @@ Terraform の練習
 
 - null_resource で tf language 練習中
 
-## count meta-argument による ifdef 練習
-
 ## locals で block どこまでネストできるか
 特に三重以上もできるか試したい。
 

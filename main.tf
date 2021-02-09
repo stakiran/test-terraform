@@ -2,18 +2,9 @@ provider "null" {
 
 }
 
-locals {
-  personal = {
-    preferences = {
-      name = "Apple"
-    }
-  }
-}
-
-resource "null_resource" "fruit" {
+resource "null_resource" "a-san" {
   triggers = {
-    name  = local.personal.preferences.name
-    color = "Red"
-    price = 150
+    name  = "A taroh"
+    weight = 75
   }
 }
