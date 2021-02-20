@@ -3,6 +3,11 @@ Terraform の練習
 
 - null_resource で tf language 練習中
 
+## variebla 空定義の謎
+必要性がわからないので調べる
+
+## ===
+
 ## count meta-argument による ifdef 練習したり、tfvars 使ってみたり
 tfvars:
 
@@ -19,8 +24,6 @@ $ tf plan -var-file=asan.tfvars
 ```
 
 count は見にくいので、locals でリーダブルにすると良い？（好みわかれそうだけど。。。
-
-## ===
 
 ## locals で block どこまでネストできるか
 特に三重以上もできるか試したい。
