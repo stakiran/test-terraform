@@ -6,6 +6,41 @@ Terraform の練習
 ## variebla 空定義の謎
 必要性がわからないので調べる
 
+何も指定していないとこうなる
+
+```
+Error: Reference to undeclared input variable
+
+  on main.tf line 7, in resource "null_resource" "person":
+   7:     name = var.name
+
+An input variable with the name "name" has not been declared. This variable
+can be declared with a variable "name" {} block.
+```
+
+var-file=config1.tfvars すると、以下警告が出る
+
+```
+$ tf plan -var-file=config1.tfvars
+
+Warning: Value for undeclared variable
+
+The root module does not declare a variable named "age" but a value was found
+in file "config1.tfvars". To use this value, add a "variable" block to the
+configuration.
+```
+
+そもそも tfvars について知らないから、まずは見てみよう。
+
+- https://www.terraform.io/docs/language/values/variables.html#assigning-values-to-root-module-variables
+- なるほど、input variable に値を投入する手段の一つが「tfvars」、という位置づけ
+- input variable ありき
+
+variable の定義を main.tf に書くか、別のファイルに書くか
+
+- どっちでもいける
+- variables.tf に分けて書いてみた
+
 ## ===
 
 ## count meta-argument による ifdef 練習したり、tfvars 使ってみたり
