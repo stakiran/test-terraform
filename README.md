@@ -4,6 +4,85 @@ Terraform の練習
 - null_resource で tf language 練習中
 
 ## あとで for_each に変えた時に差分をなくす（ための state mv？を試してみたい）
+まずはAさんとBさんをハードコードでつくる
+
+```json
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "A",
+      "provider": "provider[\"registry.terraform.io/hashicorp/null\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "8226512072947532812",
+            "triggers": {
+              "age": "13",
+              "name": "Aさん"
+            }
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+```
+
+これを for_each で作り直す。
+
+元コードそのままでつくって、plan したところまで
+
+```tf
+variable users {
+  default = {
+    A = {
+      age = 13
+    }
+    B = {
+      age = 26
+    }
+  }
+}
+
+resource "null_resource" "user" {
+  for_each = var.users
+
+  triggers = {
+    name = "${each.key}さん"
+    age  = each.value.age
+  }
+}
+```
+
+```
+Terraform will perform the following actions:
+
+  # null_resource.user["A"] will be created
+  + resource "null_resource" "user" {
+      + id       = (known after apply)
+      + triggers = {
+          + "age"  = "13"
+          + "name" = "Aさん"
+        }
+    }
+
+  # null_resource.user["B"] will be created
+  + resource "null_resource" "user" {
+      + id       = (known after apply)
+      + triggers = {
+          + "age"  = "26"
+          + "name" = "Bさん"
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+```
+
+元コードを消す
+
+
 
 ## ===
 
