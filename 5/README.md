@@ -3,10 +3,6 @@ Terraform の練習
 
 - null_resource で tf language 練習中
 
-## あとで for_each に変えた時に差分をなくす（ための state mv？を試してみたい）
-
-## ===
-
 ## variebla 空定義の謎
 必要性がわからないので調べる
 

@@ -2,9 +2,16 @@ provider "null" {
 
 }
 
-resource "null_resource" "person" {
+resource "null_resource" "A" {
   triggers = {
-    name = var.name
-    age  = var.age
+    name = "Aさん"
+    age  = 13
+  }
+}
+
+resource "null_resource" "B" {
+  triggers = {
+    name = "Bさん"
+    age  = 26
   }
 }
