@@ -82,7 +82,36 @@ Plan: 2 to add, 0 to change, 0 to destroy.
 
 元コードを消す
 
+```
+  # null_resource.A will be destroyed
+  - resource "null_resource" "A" {
+      - id       = "8226512072947532812" -> null
+      - triggers = {
+          - "age"  = "13"
+          - "name" = "Aさん"
+        } -> null
+    }
 
+  # null_resource.B will be destroyed
+  - resource "null_resource" "B" {
+      - id       = "2700166427688578824" -> null
+      - triggers = {
+          - "age"  = "26"
+          - "name" = "Bさん"
+        } -> null
+    }
+……
+Plan: 2 to add, 0 to change, 2 to destroy.
+```
+
+ここで本題。
+
+この差分を消すためには、何をすればいい？
+
+- state mv？
+- tfstate 直編集？
+
+state mv 調べてみる
 
 ## ===
 
