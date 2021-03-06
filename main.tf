@@ -2,7 +2,7 @@ provider "null" {
 
 }
 
-variable users {
+variable "users" {
   default = {
     A = {
       age = 13
