@@ -4,6 +4,24 @@ Terraform の練習
 - null_resource で tf language 練習中
 
 ## あとで for_each に変えた時に差分をなくす（ための state mv？を試してみたい）
+
+### まとめ
+state mv
+
+- `state mv BEFORE AFTER` でリソース名を変える
+- tfstate ファイル即いじっちゃうので、事前の小細工は忘れずに
+    - tfstate ファイルを複製して、`-state=複製した方` で試すとか
+- `-state-out` はちょっと紛らわしいので注意
+    - read される tfstate 側はどのみち更新される
+    - state-out がない場合、read される tfstate を更新
+    - state-out がある場合、read される tfstate からは before を消して、state-outの方に after を追記
+
+複製コードから for_each に書き換えて差分ゼロにする
+
+- `tf state mv null_resource.A null_resource.user[\""A\"]`
+- Windows だとエスケープが必要なので注意
+
+### work
 まずはAさんとBさんをハードコードでつくる
 
 ```json
@@ -112,6 +130,59 @@ Plan: 2 to add, 0 to change, 2 to destroy.
 - tfstate 直編集？
 
 state mv 調べてみる
+
+- [リモートのtfstateを書き換えずに安全にterraform state mv後のplan差分を確認する手順 - Qiita https://qiita.com/minamijoyo/items/b4d70787556c83f289e7]
+    - state mv はいきなり tfstate 書き換えちゃう
+    - remote の tfstate をいきなり壊さないための小細工
+    - state pull で tfstate をローカルに持ってきて、backend も local にして、んでローカルでそのtfstate指定してmvして（`state mv -state=tmp.tfstate`）、planする
+    - 問題なければ、state push と backend local revert
+- mv以外なさそうだな
+    - 要するに tfstate ファイル壊さないようよしなにしてねと
+- [Command: state mv - Terraform by HashiCorp https://www.terraform.io/docs/cli/commands/state/mv.html]
+    - `-state-out=` で別ファイルに出して diff ってみるのが楽そうか
+    - Windows だとエスケープの罠があってしんどいな
+
+ではよしなにやってみようか
+
+- bf: `null_resource.A`
+- af: `null_resource.user["A"]`
+- commandline: `tf state mv -state-out=after.tfstate null_resource.A null_resource.user["A"]`
+- windows の罠
+- commandline: `tf state mv -state-out=after.tfstate null_resource.A null_resource.user[\""A\"]`
+
+実行した
+
+- terraform.tfstate も書き換わってますけど……
+    - state out うそつきやん
+    - ああ、そういうことか
+
+えっと、after.tfstate につくっちゃったから、差分試しはこうか
+
+```terminal
+$ tf plan -state=after.tfstate
+null_resource.user["B"]: Refreshing state... [id=2700166427688578824]
+null_resource.user["A"]: Refreshing state... [id=8226512072947532812]
+
+No changes. Infrastructure is up-to-date.
+
+This means that Terraform did not detect any differences between your
+configuration and real physical resources that exist. As a result, no
+actions need to be performed.
+```
+
+cong!
+
+### state mv -state-out の挙動
+mv (before) (after) として。
+
+ふつう
+
+- xxx.tfstate 内の before を after に書き換える
+
+state-out を指定した場合
+
+- xxx.tfstate 内の **before を消して**、state-out の tfstate に **after を追加する**
+- move してるんだね
 
 ## ===
 
